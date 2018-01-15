@@ -35,21 +35,27 @@
   (json-string-to-map
     "{\"common\": \"a value that is common\"}"))
 
-(deftest test-json-flattening
-  (testing "If json flattening works ok"
-    (println (flatten (seq json-complex-1)))
-    (is (=
-          [
-           [["level 1"]
-            (json-string-to-map
-              "{\"level 1 value\",
-              \"level 2\" : [
-                \"level 2 value\"
-              ]}")]
-           [[["level 1"] ["level 2"]]
-            (json-string-to-map
-                "\"{[level 2 value]}\"")]]
-          (flatten-map json-complex-1)))))
+(deftest test-fetching-branch-names
+  (let [json-input (json/read-str json-complex-1-string)
+        json-branch-names (get-json-branch-names json-input)]
+     (is (= json-branch-names ["level 1" "level 2"]))))
+
+;
+;(deftest test-json-flattening
+;  (testing "If json flattening works ok"
+;    (println (flatten (seq json-complex-1)))
+;    (is (=
+;          [
+;           [["level 1"]
+;            (json-string-to-map
+;              "{\"level 1 value\",
+;              \"level 2\" : [
+;                \"level 2 value\"
+;              ]}")]
+;           [[["level 1"] ["level 2"]]
+;            (json-string-to-map
+;                "\"{[level 2 value]}\"")]]
+;          (flatten-map json-complex-1)))))
 
 ;(deftest test-extracting-simple-commonalities
 ;  (testing "If I will be able to denormalize simple jsons"

@@ -15,6 +15,10 @@
   [json-string]
   (json/read-str json-string :key-fn keyword))
 
+(defn get-json-branch-names
+  [json]
+  nil)
+
 (defn extract-json
   [file]
   (json/read-str (slurp file) :key-fn keyword))
@@ -54,6 +58,8 @@
 (defn invalid?
   [commonality]
   false)
+
+
 
 (defn -main [& args]
   (let [parsed-options (:options (parse-opts args cli-options))
